@@ -1,0 +1,14 @@
+{
+    "name": "mymdz/laravel-trustly-payment",
+    "description": "Rewritten Trustly PHP API for using with",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Denis Zadorozhny",
+            "email": "mymdz@yandex.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
