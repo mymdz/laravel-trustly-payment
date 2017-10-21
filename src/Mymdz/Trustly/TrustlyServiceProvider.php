@@ -32,6 +32,7 @@
 namespace Mymdz\Trustly;
 
 use Illuminate\Support\ServiceProvider;
+use Mymdz\Trustly\Contracts\TrustlyContract;
 
 /**
  * Class TrustlyServiceProvider
@@ -44,6 +45,15 @@ class TrustlyServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->alias(TrustlyContract::class, 'trustly');
 
+        $this->app->singleton(TrustlyContract::class, function () {
+            new Trustly(
+                config("services.trustly.login", null),
+                config("services.trustly.password", null),
+                config("services.trustly.private_key", null),
+                config("services.trustly.sandbox", true)
+            );
+        });
     }
 }

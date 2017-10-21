@@ -1,6 +1,6 @@
 {
     "name": "mymdz/laravel-trustly-payment",
-    "description": "Rewritten Trustly PHP API for using with",
+    "description": "'Facade' for old trustly-client-php for using with Laravel",
     "type": "library",
     "keywords":["Laravel", "Trustly"],
     "license": "MIT",
@@ -14,7 +14,7 @@
     "require": {
         "php": ">=7.0",
         "illuminate/support": "~5.1",
-        "guzzlehttp/guzzle":"~6.0"
+        "trustly/trustly-client-php": "dev-master"
     },
     "autoload": {
         "psr-4": {
