@@ -7,6 +7,11 @@
 namespace Mymdz\Trustly;
 
 use Mymdz\Trustly\Contracts\TrustlyContract;
+use Mymdz\Trustly\Notifications\CancelNotification;
+use Mymdz\Trustly\Notifications\CreditNotification;
+use Mymdz\Trustly\Notifications\DebitNotification;
+use Mymdz\Trustly\Notifications\PendingNotification;
+use Mymdz\Trustly\Notifications\TrustlyNotification;
 
 /**
  * Class Trustly
@@ -60,8 +65,56 @@ class Trustly implements TrustlyContract
         );
     }
 
-    public function deposit(TrustlyAmount $amount, TrustlyCustomer $customer, TrustlyDepositURLs $urls, TrustlyAddress $address = null)
+    /**
+     * @param TrustlyDeposit $deposit
+     * @param TrustlyAmount $amount
+     * @param TrustlyCustomer $customer
+     * @param TrustlyDepositURLs $urls
+     * @param TrustlyAddress|null $address
+     * @return mixed
+     */
+    public function deposit(TrustlyDeposit $deposit, TrustlyAmount $amount, TrustlyCustomer $customer, TrustlyDepositURLs $urls, TrustlyAddress $address = null)
     {
+        $api = $this->getSignedAPI();
+        return $deposit->call($api, $amount, $customer, $urls, $address);
+    }
 
+    /**
+     * @param $notification
+     * @return TrustlyNotification|null
+     */
+    public function parseNotification($notification)
+    {
+        $api = $this->getSignedAPI();
+
+        if (is_array($notification)) {
+            $notification = json_encode($notification);
+        }
+
+        $notification = $api->handleNotification($notification);
+
+        /**
+         * You should catch exceptions here and abort(400)
+         */
+        $concreteNotification = null;
+        switch ($notification->getMethod()):
+            case 'credit':
+                $concreteNotification = new CreditNotification($api, $notification);
+                break;
+            case 'debit':
+                $concreteNotification = new DebitNotification($api, $notification);
+                break;
+            case 'pending':
+                $concreteNotification = new PendingNotification($api, $notification);
+                break;
+            case 'cancel':
+                $concreteNotification = new CancelNotification($api, $notification);
+                break;
+            default:
+                throw new \InvalidArgumentException('Unsupported notification method');
+
+        endswitch;
+
+        return $concreteNotification;
     }
 }

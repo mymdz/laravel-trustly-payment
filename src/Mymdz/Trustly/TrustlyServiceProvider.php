@@ -48,7 +48,7 @@ class TrustlyServiceProvider extends ServiceProvider
         $this->app->alias(TrustlyContract::class, 'trustly');
 
         $this->app->singleton(TrustlyContract::class, function () {
-            new Trustly(
+            return new Trustly(
                 config("services.trustly.login", null),
                 config("services.trustly.password", null),
                 config("services.trustly.private_key", null),

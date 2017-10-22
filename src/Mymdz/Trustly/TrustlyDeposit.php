@@ -39,6 +39,9 @@ class TrustlyDeposit
             $address = new TrustlyAddress();
         }
 
+        $numSeparator = setlocale(LC_NUMERIC, null);
+        setlocale(LC_NUMERIC, '.');
+
         $deposit = $api->deposit(
             $urls->getNotificationURL(),
             $customer->getIdentifier(),
@@ -71,7 +74,13 @@ class TrustlyDeposit
             null
         );
 
-        return $deposit->getData('url');
+        setlocale(LC_NUMERIC, $numSeparator);
+
+        if ($deposit->getData('url')) {
+            return $deposit->getData('url');
+        } else {
+            throw new \Trustly_DataException("Trustly error message: ".$deposit->getErrorMessage(), $deposit->getErrorCode());
+        }
     }
 
 }

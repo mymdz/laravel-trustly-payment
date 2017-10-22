@@ -10,6 +10,7 @@ use Mymdz\Trustly\TrustlyAmount;
 use Mymdz\Trustly\TrustlyCustomer;
 use Mymdz\Trustly\TrustlyDepositURLs;
 use Mymdz\Trustly\TrustlyAddress;
+use Mymdz\Trustly\TrustlyDeposit;
 
 /**
  * Interface TrustlyContract
@@ -17,5 +18,6 @@ use Mymdz\Trustly\TrustlyAddress;
  */
 interface TrustlyContract
 {
-    public function deposit(TrustlyAmount $amount, TrustlyCustomer $customer, TrustlyDepositURLs $urls, TrustlyAddress $address = null);
+    public function deposit(TrustlyDeposit $deposit, TrustlyAmount $amount, TrustlyCustomer $customer, TrustlyDepositURLs $urls, TrustlyAddress $address = null);
+    public function parseNotification($notification);
 }
