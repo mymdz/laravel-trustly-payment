@@ -24,7 +24,7 @@ abstract class TrustlyNotification
     public function __construct(\Trustly_Api_Signed $api, \Trustly_Data_JSONRPCNotificationRequest $notification)
     {
         $this->api = $api;
-        $this->notification = $api->handleNotification($notification);
+        $this->notification = $notification;
     }
 
     public function prepareResponse(bool $success = true)
