@@ -80,6 +80,25 @@ class Trustly implements TrustlyContract
     }
 
     /**
+     * @param int $trustlyOrderID
+     * @param TrustlyAmount $amount
+     * @return bool
+     */
+    public function refund(int $trustlyOrderID, TrustlyAmount $amount)
+    {
+        $api = $this->getSignedAPI();
+
+        $numSeparator = setlocale(LC_NUMERIC, null);
+        setlocale(LC_NUMERIC, '.');
+
+        $refundResult = $api->refund($trustlyOrderID, $amount->getAmount(), $amount->getCurrency());
+
+        setlocale(LC_NUMERIC, $numSeparator);
+
+        return $refundResult->getData('result') == 1;
+    }
+
+    /**
      * @param $notification
      * @return TrustlyNotification|null
      */

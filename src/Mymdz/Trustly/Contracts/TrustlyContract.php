@@ -19,5 +19,6 @@ use Mymdz\Trustly\TrustlyDeposit;
 interface TrustlyContract
 {
     public function deposit(TrustlyDeposit $deposit, TrustlyAmount $amount, TrustlyCustomer $customer, TrustlyDepositURLs $urls, TrustlyAddress $address = null);
+    public function refund(int $trustlyOrderID, TrustlyAmount $amount);
     public function parseNotification($notification);
 }
