@@ -6,6 +6,7 @@
 
 namespace Mymdz\Trustly;
 
+use Carbon\Carbon;
 use Mymdz\Trustly\Contracts\TrustlyContract;
 use Mymdz\Trustly\Notifications\CancelNotification;
 use Mymdz\Trustly\Notifications\CreditNotification;
@@ -135,5 +136,23 @@ class Trustly implements TrustlyContract
         endswitch;
 
         return $concreteNotification;
+    }
+
+    /**
+     * @param Carbon $fromDate
+     * @param Carbon $toDate
+     * @param string|null $currency
+     */
+    public function accountLedger(Carbon $fromDate, Carbon $toDate, string $currency = null)
+    {
+        $api = $this->getSignedAPI();
+
+        $data = array(
+            'FromDate' => $fromDate->format("Y-m-d"),
+            'ToDate' => $toDate->format("Y-m-d"),
+            'Currency' => $currency,
+        );
+
+        return $api->call(new \Trustly_Data_JSONRPCRequest('AccountLedger', $data));
     }
 }
