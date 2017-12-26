@@ -6,7 +6,6 @@
 
 namespace Mymdz\Trustly\Contracts;
 
-use Carbon\Carbon;
 use Mymdz\Trustly\TrustlyAmount;
 use Mymdz\Trustly\TrustlyCustomer;
 use Mymdz\Trustly\TrustlyDepositURLs;
@@ -22,5 +21,5 @@ interface TrustlyContract
     public function deposit(TrustlyDeposit $deposit, TrustlyAmount $amount, TrustlyCustomer $customer, TrustlyDepositURLs $urls, TrustlyAddress $address = null);
     public function refund(int $trustlyOrderID, TrustlyAmount $amount);
     public function parseNotification($notification);
-    public function accountLedger(Carbon $fromDate, Carbon $toDate, string $currency = null);
+    public function accountLedger(\Carbon\Carbon $fromDate, \Carbon\Carbon $toDate, string $currency = null);
 }

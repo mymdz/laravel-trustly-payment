@@ -139,8 +139,8 @@ class Trustly implements TrustlyContract
     }
 
     /**
-     * @param Carbon $fromDate
-     * @param Carbon $toDate
+     * @param \Carbon\Carbon $fromDate
+     * @param \Carbon\Carbon $toDate
      * @param string|null $currency
      */
     public function accountLedger(Carbon $fromDate, Carbon $toDate, string $currency = null)
